@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block header %}
+    <link rel="stylesheet" href="{% static "css/loginStyle.css" %}">
+{% endblock header %}
+
+{% block title %}{{user.username}}'s Cart{% endblock title %}
+
+{% block content %}
+
+<div class="d-flex justify-content-center">
+    <div class="card border border-primary-subtle text-bg-primary p-4 m-4 w-50"
+         style="-webkit-box-shadow: 3px 8px 35px 0px rgba(0,0,0,0.19);
+         box-shadow: -7px 14px 20px 0px rgba(0, 0, 0, 0.19);">
+        <h2 class="text-primary">Login</h2>
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <input class="btn btn-secondary" type="submit" value="Login">
+        </form>
+    </div>
+</div>
+
+{% endblock content %}

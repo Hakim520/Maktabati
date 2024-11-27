@@ -1,0 +1,150 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block header %}
+{% endblock header %}
+
+{% block title %}{{username}}'s Cart{% endblock title %}
+
+{% block content %}
+
+{% if CartSuccess %}
+    <div id="cart_success" class="container">
+        <div class="d-flex align-items-center justify-content-between mt-4 alert alert-success">
+            <div class="col">
+                Your purchase was <a class="alert-link" href="">successful</a>. It will be processed shortly
+            </div>
+            <button class="col-1 p-1 m-2 btn btn-success" onclick="document.getElementById('cart_success').remove();">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+{% endif %}
+
+{% if cart %}
+
+<div class="container p-3">
+    <div class="row">
+        <table class="table table-bordered table-hover">
+            <thead>
+                <tr>
+                    <th>Image</th>
+                    <th>Title</th>
+                    <th>unit price</th>
+                    <th>quantity</th>
+                    <th>Total</th>
+                    <th>Delete item</th>
+                </tr>
+            </thead>
+            <tbody>
+                <form id="purchaseForm" action="{% url "checkout" %}" method="post">
+                    {% csrf_token %}
+                    {% for bookcart,discount_price in cart %}
+                        <tr class="trow">
+                            <td class="d-flex justify-content-center">
+                                <a href="{% url "book" bookcart.book.slug bookcart.book.ISBN %}">
+                                    <img    
+                                        src={% if bookcart.book.image.url %} 
+                                                "{{bookcart.book.image.url}}" 
+                                            {% else %} 
+                                                "{% static 'book-cover-placeholder.png' %}"
+                                            {% endif %}
+                                        alt="{{ bookcart.book.title }} cover image" 
+                                        height="100"
+                                    />
+                                </a>
+                            </td>
+                            <td>{{bookcart.book.title}}</td>
+                            <td class="price" id="price_{{forloop.counter}}">${{discount_price}}</td>
+                            <td>
+                                <input 
+                                    type="number" 
+                                    name="quantity_{{forloop.counter}}" 
+                                    id="quantity_{{forloop.counter}}"
+                                    class="quantity"
+                                    value="{{bookcart.quantity}}"
+                                    min="0"
+                                    max = {{bookcart.book.quantity}}
+                                    
+                                    oninput="
+                                                enforceMinMax(this);
+                                                document
+                                                .getElementById('total_{{forloop.counter}}')
+                                                .innerText = '$' + roundToTwo(document.getElementById('price_{{forloop.counter}}').innerText.split('$')[1] * this.value);
+                                                calculateTotal();"
+                                    style="max-width:5rem;"
+                                >
+                            </td>
+                            <td style="font-size: 1.5rem;font-weight: bold;" class="total" id="total_{{forloop.counter}}"></td>
+                            <td style="padding:0.5rem;">
+                                    <a href="{% url "deleteItem" bookcart.book.ISBN %}" class="btn btn-outline-danger">
+                                        <i class="fa fa-times" aria-hidden="true"></i>
+                                    </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </form>
+            </tbody>
+        </table>
+    </div>
+    <div class="d-flex flex-row-reverse">
+        <div class="col-xs-6 p-3 card ">
+            <div class="row d-flex align-items-center"> 
+                <h3 class="col m-1"> Total To Pay </h3>
+                <span col="col" id="TotalToPay" style="font-size: 2rem;font-weight: bold;"></span>
+            </div>
+            <button class="row m-4 btn btn-dark" onclick="document.getElementById('purchaseForm').submit();">Checkout</button>
+        </div>
+    </div>
+</div>
+{% else %}
+    <div class="container d-flex justify-content-center">
+        <div class="card border col-10 p-5 m-5" style="
+        -webkit-box-shadow: 3px 8px 35px 0px rgba(0,0,0,0.19);
+        box-shadow: -7px 14px 20px 0px rgba(0, 0, 0, 0.19);">
+            <h2>Your Cart is empty<h2>
+            <h3>check our <a href="{% url "store" %}">store</a> to purchase something you like<h3>
+        </div>
+    </div>
+{% endif %}
+
+<script defer>
+    document.querySelectorAll('.trow').forEach((element) => {
+        const price = element.querySelector('.price');
+        const quantity = element.querySelector('.quantity');
+        const total = element.querySelector('.total');
+
+        total.innerText = "$" + roundToTwo( price.innerText.split('$')[1] * quantity.value);
+        console.log(total.innerText,price.innerText.split('$')[1],quantity.value);
+        calculateTotal();
+    });
+
+    function calculateTotal() {
+        let total = 0;
+        document.querySelectorAll('.total').forEach((e) => {
+            console.log(Number(e.innerText.split('$')[1]));
+            total += Number(e.innerText.split('$')[1]);
+        });
+        document.getElementById("TotalToPay").innerText = "$"+roundToTwo(total);
+        return total;
+    }
+
+    function roundToTwo(num) {
+        return +(Math.round(num + "e+2")  + "e-2");
+    }
+
+
+    function enforceMinMax(el) {
+  if (el.value != "") {
+    if (parseInt(el.value) < parseInt(el.min)) {
+      el.value = el.min;
+    }
+    if (parseInt(el.value) > parseInt(el.max)) {
+      el.value = el.max;
+    }
+  }
+}
+
+</script>
+{% endblock content %}

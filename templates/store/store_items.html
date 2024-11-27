@@ -1,0 +1,308 @@
+{% load url_concat %}
+{% load discount %}
+
+<section class="section-content padding-y" id="search_update">
+    <div class="container">
+    
+    <div class="row">
+        <aside class="col-md-3">
+            
+    <div class="card">
+        <form id="filter_form" hx-target="#search_update" hx-trigger="change from:input, submit"  hx-get = {% url 'store'%} hx-swap = "outerHTML">
+            {%if search_term %}
+                <input type="search" name="term" style="display:none"  value={{search_term}}>
+            {%endif%}
+            {%if genre%}
+                <input type="search" name="genre" style="display:none"  value={{genre}}>
+            {%endif%}
+        <article class="filter-group">
+            <header class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse_1" aria-expanded="true" class="">
+                    <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">Categories</h6>
+                </a>
+            </header>
+            <div class="filter-content collapse show" id="collapse_1" style="">
+                <div class="card-body">
+                    
+                    <ul class="list-menu">
+                    <li><a href="{% url 'store' %}">All Products </a></li>
+
+                     {% for category in links %} 
+                    <li><a href="/store/?genre={{category.designation}}">{{category.designation}}  </a></li>
+                  {% endfor %}
+                    </ul>
+    
+                </div> <!-- card-body.// -->
+            </div>
+        </article> <!-- filter-group  .// -->
+
+        <article class="filter-group">
+            <header class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse_2" aria-expanded="true" class="">
+                    <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">Authors</h6>
+                </a>
+            </header>
+            <div class="filter-content collapse show" id="collapse_2" style="">
+                <div class="card-body">
+                    
+                    <ul class="list-menu">
+
+                      
+                    
+
+                        {%for author in authors_count%}
+                        <li class="field">
+                            <input type='checkbox' class="form-check-input" name='author' value="{{author.author}}"
+                                {%if author.author in checked_authors%} checked {%endif%}
+                            >
+                            <label for="">{{author.author}}</label><span class="count">({{author.c}})</span></label>
+                           
+                        </li>
+                        {%endfor%}
+                    </ul>
+    
+                </div> <!-- card-body.// -->
+            </div>
+        </article> <!-- filter-group  .// -->
+
+        <article class="filter-group">
+            <header class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse_4" aria-expanded="true" class="">
+                    <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">Formats</h6>
+                </a>
+            </header>
+            <div class="filter-content collapse show" id="collapse_4" style="">
+                <div class="card-body">
+                    
+                    <ul class="list-menu">
+                    
+
+                        {%for format in formats_count%}
+                        <li class="field">
+                            <input type='checkbox' class="form-check-input" name='forma' value="{{format.format}}"
+                                {%if format.format in checked_formats%} checked {%endif%}
+                            >
+                            <label for="">{{format.format}}</label><span class="count">({{format.c}})</span></label>
+                        </li>
+                        {%endfor%}
+                    </ul>
+    
+                </div> <!-- card-body.// -->
+            </div>
+        </article> <!-- filter-group  .// -->
+
+        <article class="filter-group">
+            <header class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse_5" aria-expanded="true" class="">
+                    <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">languages</h6>
+                </a>
+            </header>
+            <div class="filter-content collapse show" id="collapse_5" style="">
+                <div class="card-body">
+                    
+                    <ul class="list-menu">
+                    
+
+                        {%for language in languages_count%}
+                        <li class="field">
+                            <input type='checkbox' class="form-check-input" name='language' value="{{language.language}}"
+                                {%if language.language in checked_languages%} checked {%endif%}
+                            >
+                            <label for="">{{language.language}}</label><span class="count">({{language.c}})</span></label>
+                        </li>
+                        {%endfor%}
+                    </ul>
+    
+                </div> <!-- card-body.// -->
+            </div>
+        </article> <!-- filter-group  .// -->
+        
+            
+        <article class="filter-group">
+            <header class="card-header">
+                <a href="#" data-toggle="collapse" data-target="#collapse_3" aria-expanded="true" class="">
+                    <i class="icon-control fa fa-chevron-down"></i>
+                    <h6 class="title">Price range </h6>
+                </a>
+            </header>
+            <div class="filter-content collapse show" id="collapse_3" style="">
+                <input type="text" id="slider_min" name="min" value={{min}} style="display:none">
+                <input type="text" id="slider_max" name="max" value={{max}} style="display:none">
+
+                <div class="card-body">
+                    
+                    <div id="slider" class="noUi-target noUi-ltr noUi-horizontal noUi-txt-dir-ltr"></div>
+                    
+                </div><!-- card-body.// -->
+                <button type="submit" class="btn btn-block btn-primary">Apply</button>
+            </div>
+        </article> <!-- filter-group .// -->
+
+
+        </form>
+    </div> <!-- card.// -->
+    
+        </aside> <!-- col.// -->
+        <main class="col-md-9">
+    
+    <header class="border-bottom mb-4 pb-3">
+            <div class="form-inline">
+                <span class="mr-md-auto"><b>{{book_count}}</b> items found </span>
+                
+            </div>
+    </header><!-- sect-heading -->
+    
+    <div class="row">
+        {% for book in books %}
+        <div class="col-md-4 mb-5">
+            <figure class="store_card card-product-grid">
+                <div>
+                            <div class="product-picture">
+                                <a href=" {% url 'book' book.slug book.ISBN %}" class="product-name">
+                                    {%if book.on_sale %}
+                                        <span class="discount-tag">{{book.discount}}% Off</span>
+                                    {%endif%}
+                                    <img class = "img"  src= "{{book.image.url}}"/>
+                                </a>
+                             </div>
+                            <div class="product-info" style="height: 170px;">
+                                <h5>
+                                    <a href=" {% url 'book' book.slug book.ISBN %}" class="product-name"> {{book.title}} </a>
+                                </h5>
+                                <p class="product-author">{{book.author}}</p>
+                                <p class="product-genre">
+                                    {% for genre in book.genre.all %}
+                                         {% if forloop.first %}
+                                           {{genre.designation}}
+                                        {%endif%}
+                                    {%endfor %}
+
+                                </p>
+                                <p class="product-format">
+                                    <span>{{book.format}}</span><br>
+                                    Published <span>{{book.publicate_date}}</span>
+                                </p>
+                                <div class="product-price">
+                                    <ul class="list--inline">
+                                        {%if book.on_sale %}
+                                            <span class="price">£ {{book.price|discount_calculator:book.discount}}</span><span class="actual-price">£ {{book.price}}</span>
+                                        {%else%}
+                                            <li class="product-price--current">£ {{book.price}}</li>
+                                        
+                                        {%endif%}
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    {% if book.is_available %} 
+                        <div id="myform{{book.ISBN}}" hidden>
+                            <form method="post" action="{% url "addToCart" book.ISBN %}?next={% url "store" %}">
+                                {% csrf_token %}
+                                <label for="quantity">quantity</label>
+                                <input type="number" value="1" id="quatity" name="quantity"
+                                    style="max-width:5rem">
+                            </form>
+                        </div>
+                        <a id="addToCart" onclick="document.querySelector('#myform{{book.ISBN}} > form').submit()">
+                            <span class="btn  btn-text">Add to Basket</span>
+                        </a>
+                    {% else %}
+                        <a id="addToCart">
+                            <span class="btn  btn-text" style="background-color:gray;">OUT of stock</span>
+                        </a>
+                    {% endif %}
+            </figure>
+        </div> <!-- col.// -->
+    
+        {% endfor %}
+    </div> <!-- row end.// -->
+    
+    
+    <nav aria-label="Page navigation example">
+             <ul class="pagination justify-content-end">
+
+    
+
+            {% if books.has_previous %}
+            	<li class="page-item"><a class="page-link" href="?{% modify_query page=1 %}">&laquo First</a></li>
+
+            	<li class="page-item"><a class="page-link" href="?{% modify_query page=books.previous_page_number %}">Previous</a></li>
+
+            {% endif %}
+
+            <!--
+            <li class="page-item disabled"><a href="#" class="page-link">Page {{ books.number }} of {{ books.paginator.num_pages }}</a></li>
+            -->
+        
+            {% for i in nums %}
+            	<li class="page-item {%if forloop.counter == books.number %} active {%endif%}">
+                    <a class="page-link" href="?{% modify_query page=forloop.counter %}">
+                        {{ forloop.counter }}
+                    </a>
+                
+                </li>
+        
+            {% endfor %}
+        
+        
+            {% if books.has_next %}
+               
+            	<li class="page-item"><a class="page-link" href="?{% modify_query page=books.next_page_number %}">Next</a></li>
+        
+            	<li class="page-item"><a class="page-link" href="?{% modify_query page=books.paginator.num_pages %}">Last &raquo</a></li>
+        
+            {% endif %}
+
+                </ul>
+            </nav>
+    
+        </main> <!-- col.// -->
+    
+    </div>
+    
+    </div> <!-- container .//  -->
+    </section>
+
+
+
+    <script type="text/javascript"> 
+            function createSlider() {
+        var min = document.getElementById("slider_min").value;
+        var max = document.getElementById("slider_max").value;
+            
+    var tooltipSlider = document.getElementById('slider');
+
+    $('#slider_min').on('change', function() {
+            console.log("changed")
+});
+
+    noUiSlider.create(tooltipSlider, {
+       
+        start: [min, max],
+        connect: true,
+        tooltips: [wNumb({ prefix: '£', decimals: 0 }), wNumb({ prefix: '£', decimals: 0 })],
+        range: {
+            'min': 0,
+            'max': 200
+        },
+        format: wNumb({
+            decimals: 0
+        })
+    });
+    var skipValues = [
+        document.getElementById('slider_min'),
+        document.getElementById('slider_max')
+    ];
+    tooltipSlider.noUiSlider.on('update', function (values, handle) {
+        skipValues[handle].setAttribute("value", values[handle]);
+        $('#slider_min').trigger('change');
+    });
+}
+createSlider();
+
+document.addEventListener('htmx:afterRequest', createSlider);
+    </script>

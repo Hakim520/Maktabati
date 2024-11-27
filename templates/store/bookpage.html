@@ -1,0 +1,186 @@
+{% extends 'base.html' %}
+{% load static%}
+{%load discount%}
+{% block header %} 
+    <link rel="stylesheet" href="{% static "css/bookpage.css" %}">
+{% endblock header %}
+{% block title %} {{ book.title }} {% endblock title %}
+
+{% block content %}
+<style>
+    #cart_success{
+        animation: cardslinding ease-in 4s;
+        animation-delay: 1s;
+    }
+
+
+
+    @keyframes cardsliding {
+        0%{transform: translate(800px);}
+        100%{transform: translate(0px);}
+    }
+    
+</style>
+
+
+{% if need_auth %}
+       <div class="container">
+            <div id ="need_auth" class="d-flex align-items-center justify-content-between mt-4 alert alert-danger">
+                <div class="col">
+                    you need to <a class="alert-link" href="{% url "login" %}">log in</a> to be able to add to your Cart
+                </div>
+                <button class="col-1 p-1 m-2 btn btn-danger" onclick="document.getElementById('need_auth').remove();">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+{% endif %}
+
+{% if CartSuccess %}
+    <div id="cart_success" class="container">
+        <div class="d-flex align-items-center justify-content-between mt-4 alert alert-success">
+            <div class="col">
+                successfully added to <a class="alert-link" href="{% url "cart" %}">your cart</a>
+            </div>
+            <button class="col-1 p-1 m-2 btn btn-success" onclick="document.getElementById('cart_success').remove();">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+{% endif %}
+
+<div class="book_container">
+    <div class="row gap-20">
+        <div class="book_image_container">
+            <!--{% static 'book-cover-placeholder.png' %}-->
+            <img    src={% if book.image.url %} 
+                        "{{book.image.url}}" 
+                    {% else %} 
+                        "{% static 'book-cover-placeholder.png' %}"
+                    {% endif %}
+                    alt="{{ book.title }} cover image" 
+                    height="280"/>
+        </div>
+        <div class="right_side">
+            <h1>{{ book.title }}</h1>
+            <h5>by <strong>{{ book.author }}</strong></h5>
+            <div> <em>{{book.format}} </em></div>
+            
+            <div>available quantity : {{book.quantity}}</div>
+            
+            {%if book.on_sale %}
+                <div id="bprice">
+                    <span>£ {{book.price|discount_calculator:book.discount}}</span><span class="actual-price">£ {{book.price}}</span>
+                </div>
+            {%else%}
+                <div id="bprice">£ {{book.price}}</div>
+                                        
+            {%endif%}
+        
+            
+            <div id="myform" hidden>
+                <form method="post" action="{% url "addToCart" book.ISBN %}">
+                    {% csrf_token %}
+                    <label for="quantity">quantity</label>
+                    <input type="number" min="1" max="{{book.quantity}}" id="quatity" onkeyup=enforceMinMax(this) name="quantity" />
+                    <a onclick="document.querySelector('#myform > form').submit();
+                                document.getElementById('myform').hidden=true;
+                                document.getElementById('addToCart').hidden=false;"
+                    >
+                        <span class="btn  btn-text">Add to Basket</span>
+                    </a>
+                </form>
+            </div>
+        {% if book.is_available %} 
+            <a id="addToCart" onclick="document.getElementById('myform').hidden=false; this.hidden=true;">
+                <span class="btn  btn-text">Add to Basket</span>
+            </a>
+        {% else %}
+            <a id="addToCart">
+                <span class="btn  btn-text" style="background-color:gray;">OUT of stock</span>
+            </a>
+        {% endif %}
+            
+        </div>
+
+    </div>
+    
+
+    <div class="about_container">  
+
+        <div class="book_desc">
+            <h2> Book description </h2>
+            <p>{{book.description | linebreaks}}</p>
+        </div>
+
+        <div class="information-block">
+            <div class="info-title">Book details</div>
+
+            <div class="champ">
+                <span class = "cle"> ISBN: </span>
+                <div class="information">&nbsp;  {{ book.ISBN }}</div>
+            </div>
+            <div class="champ">
+                <span class = "cle"> title: </span>
+                <span class="information">&nbsp;  {{ book.title }}</span>
+            </div>
+            
+            <div class="champ">
+                <span class = "cle"> publication date: </span>
+                <span class="information">&nbsp;  {{ book.publicate_date}}</span>
+            </div>
+            <div class="champ">
+                <span class = "cle"> pages: </span>
+                <span class="information">&nbsp;  {{ book.pages }}</span>
+            </div>
+            <div class="champ">
+                <span class = "cle"> language: </span>
+                <span class="information">&nbsp;  {{ book.language }}</span>
+            </div>
+            <div class="champ">
+                <span class = "cle"> author: </span>
+                <span class="information">&nbsp;  {{ book.author }}</span>
+            </div>
+            <div class="champ">
+                <span class = "cle"> publisher: </span>
+                <span class="information">&nbsp;  {{ book.publisher }}</span>
+            </div>
+            <!--
+                <div>
+                    <span class="cle"> seller: </span>
+                    <span class="information">&nbsp;  {{ book.seller }}</span>
+                </div> 
+            -->
+            <div class="champ">
+                <span class = "cle"> format: </span>
+                <span class="information">&nbsp;  {{ book.format}}</span>
+            </div>
+            <div class="champ">
+                <span class = "cle"> genres: </span>
+                <span class="information">&nbsp;  {{ book.genre.all|join:", "  }}</span>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+<script>
+
+    function enforceMinMax(el) {
+  if (el.value != "") {
+    if (parseInt(el.value) < parseInt(el.min)) {
+      el.value = el.min;
+    }
+    if (parseInt(el.value) > parseInt(el.max)) {
+      el.value = el.max;
+    }
+  }
+}
+
+</script>
+
+
+
+
+{% endblock content%}

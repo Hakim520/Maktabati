@@ -1,0 +1,60 @@
+
+
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block header %} 
+    <link rel="stylesheet" href="{% static "css/registerStyle.css" %}">
+{% endblock header %}
+
+{% block title %}{{user.username}}'s Cart{% endblock title %}
+
+{% block content %}
+{% if errors %}
+       <div class="container">
+            <div id ="need_auth" class="d-flex align-items-center justify-content-between mt-4 alert alert-danger">
+                <div class="col">
+                    There were <span class="alert-link">errors</span> in your informations. Please try Again
+                </div>
+                <button class="col-1 p-1 m-2 btn btn-danger" onclick="document.getElementById('need_auth').remove();">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </button>
+            </div>
+        </div>
+{% endif %}
+        <div class="wrapper">
+            <h1>Register</h1>
+            <form action="{% url "register" %}" method="POST">
+                {% csrf_token %}
+
+                <div class="input-box">
+                    <input name="First name" type="text" placeholder="First name">
+                </div>
+                
+                <div class="input-box">
+                    <input name="Last name" type="text" placeholder="Last name">
+                </div>
+                
+                <div class="input-box">
+                    <input name="Username" type="text" placeholder="Username">
+                </div>
+                
+                <div class="input-box">
+                    <input name="password1" type="password" placeholder="Password">
+                </div>
+                
+                <div class="input-box">
+                    <input name="password2" type="password" placeholder="Confirm password">
+                </div>
+                
+                <button type="submit" class="btn">Register</button>
+
+            </form>
+            
+            <div class="sign-in-link">
+                <p>Already have an account ? <a href="{% url "login" %}">Sign in</a></p>
+            </div>
+
+        </div>
+{% endblock content %}

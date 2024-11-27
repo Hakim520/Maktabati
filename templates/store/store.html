@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% load static%}
+{% load url_concat %}
+{% block header %} 
+    <link rel="stylesheet" href="{% static "css/store.css" %}">
+    <link rel="stylesheet" href="{% static "css/slider.css" %}">
+{% endblock header %}
+
+{% block title %} Store {% endblock title %}
+
+{% block content %}
+{% if CartSuccess %}
+    <div id="cart_success" class="container">
+        <div class="d-flex align-items-center justify-content-between mt-4 alert alert-success">
+            <div class="col">
+                successfully added to <a class="alert-link" href="{% url "cart" %}">your cart</a>
+            </div>
+            <button class="col-1 p-1 m-2 btn btn-success" onclick="document.getElementById('cart_success').remove();">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </button>
+        </div>
+    </div>
+{% endif %}
+
+<!-- ========================= SECTION PAGETOP ========================= -->
+<section class="section-pagetop bg">
+    <div class="container">
+        <h2 class="title-page">Our Store</h2>
+        
+    </div> <!-- container //  -->
+    </section>
+    <!-- ========================= SECTION INTRO END// ========================= -->
+    
+    <!-- ========================= SECTION CONTENT ========================= -->
+            {%include "store/store_items.html"%}
+    <!-- ========================= SECTION CONTENT END// ========================= -->
+    
+
+{% endblock %}

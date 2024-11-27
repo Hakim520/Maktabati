@@ -1,0 +1,204 @@
+{% load static %}
+{%load discount%}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/stylehome.css' %}">
+    <link rel="stylesheet"
+  href="https://unpkg.com/boxicons@latest/css/boxicons.min.css">
+    <title>Maktabati</title>
+	
+</head>
+
+<style>
+   .custom-shape-divider-top-1714580032 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    overflow: hidden;
+    line-height: 0;
+}
+
+.custom-shape-divider-top-1714580032 svg {
+    position: relative;
+    display: block;
+    width: calc(100% + 1.3px);
+    height: 133px;
+    transform: rotateY(180deg);
+}
+
+.custom-shape-divider-top-1714580032 .shape-fill {
+    fill: #FFFFFF;
+}
+
+
+
+</style>
+
+<body>
+    <div class="banner" id="banner" style="background-image: linear-gradient(rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0.75)),
+    url('{% static 'images/images/banner1.png'%}');">
+        <div class="navbar">
+            <img src="{% static './images/images/shine1.png' %}" alt="" class="logo">
+            <ul>
+                <li><a href="#sale">Sales</a></li>
+                <li><a href="{% url 'store'%}">Store</a></li>
+                <li><a href="#home">About Us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+
+        <div class="content">
+            <h1>EXPLORE DIFFERENT BOOKS</h1>
+            <p>Explore endless worlds at Maktabati – Your Gateway to Knowledge!</p>
+            <!-- <div>
+                <button class="signup-btn" type="button"><span class="cover"></span>SIGN UP</button>
+                <button class="login-btn" type="button"><span class="cover"></span>LOG IN</button>
+            </div> -->
+        </div>
+    </div>
+
+    <a id="scroll-btn" href="#sale"></a>
+
+    <section id="sale" class="product"> 
+        <h2 class="product-category">On Sale</h2>
+        <button class="pre-btn"><img src="{% static 'images/images/arrow.png' %}" alt=""></button>
+        <button class="nxt-btn"><img src="{% static 'images/images/arrow.png' %}" alt=""></button>
+        <div class="product-container">
+			{% for books in products %}
+				{% if books.on_sale %}
+                
+                   
+            <div class="product-card">
+				
+				
+                <div class="product-image">
+                    <span class="discount-tag">{{books.discount}}% Off</span>
+                    <a href="{% url 'book' books.slug books.ISBN %}"> <img src="{{books.image.url}}" class="product-thumb" alt=""></a>
+                    <a href = "{%url 'book' books.slug books.ISBN%}" class="card-btn">view details</a>
+                </div>
+                <div class="product-info" >
+                    <a href="{% url 'book' books.slug books.ISBN %}" style="text-decoration: none;"><h2 class="product-brand book-title" style="text-transform: uppercase; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{books.title}}</h2></a>
+                    <p class="product-short-description"   style="height: 20px; line-height: 20px; overflow: hidden; opacity: 0.5; text-transform: capitalize;">a short line about the cloth..</p>
+                    <span class="price">£ {{books.price|discount_calculator:books.discount}}</span><span class="actual-price">${{books.price}}</span>
+                </div>
+            </div>
+              
+			{% endif %}
+			{% endfor %}
+        </div>
+    </section>
+
+ 
+    <section class="home" id="home" style="position:relative;">
+        <div class="custom-shape-divider-top-1714580032">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M0,0V46.29c47.79,22.2,103.59,32.17,158,28,70.36-5.37,136.33-33.31,206.8-37.5C438.64,32.43,512.34,53.67,583,72.05c69.27,18,138.3,24.88,209.4,13.08,36.15-6,69.85-17.84,104.45-29.34C989.49,25,1113-14.29,1200,52.47V0Z" opacity=".25" class="shape-fill"></path>
+                <path d="M0,0V15.81C13,36.92,27.64,56.86,47.69,72.05,99.41,111.27,165,111,224.58,91.58c31.15-10.15,60.09-26.07,89.67-39.8,40.92-19,84.73-46,130.83-49.67,36.26-2.85,70.9,9.42,98.6,31.56,31.77,25.39,62.32,62,103.63,73,40.44,10.79,81.35-6.69,119.13-24.28s75.16-39,116.92-43.05c59.73-5.85,113.28,22.88,168.9,38.84,30.2,8.66,59,6.17,87.09-7.5,22.43-10.89,48-26.93,60.65-49.24V0Z" opacity=".5" class="shape-fill"></path>
+                <path d="M0,0V5.63C149.93,59,314.09,71.32,475.83,42.57c43-7.64,84.23-20.12,127.61-26.46,59-8.63,112.48,12.24,165.56,35.4C827.93,77.22,886,95.24,951.2,90c86.53-7,172.46-45.71,248.8-84.81V0Z" class="shape-fill"></path>
+            </svg>
+        </div>
+
+    <div class="home-text">
+        <h1>About US</h1>
+        <h2>At Makatabati, you'll find a world of possibilities within our extensive collection. Explore diverse categories, from gripping thrillers to enlightening non-fiction, ensuring there's something for every reader <br> Your literary journey begins here, at Makatabati - where every book tells a story, and every story finds its reader.</h2>
+        <a href="{%url 'store'%}" class="btn">Store</a>
+    </div>
+
+    <div class="home-img">
+        <img src="{% static 'images/img/home1.png'%}">
+
+    </div>
+</section>
+
+    
+    
+   <section class="services" id="services"  >
+    
+   
+
+    <div class="heading">
+        <span>Services</span>
+        <h2>Discover the finest literature with Makatabati</h2>
+    </div>
+    <div class="service-container">
+        <div class="s-box">
+            <img src="{% static "images/img/s1.png"%}">
+            <h3>Order</h3>
+            <p>Experience seamless ordering - where convenience meets excellence.</p>
+        </div>
+        
+
+        <div class="s-box">
+            <img src="{%static "images/img/s2.png"%}">
+            <h3>Delivered</h3>
+            <p>Elevate your delivery experience with Makatabati's swift and reliable service. Your satisfaction, our priority.</p>
+        </div>
+    </div>
+
+    </section>
+
+         
+
+<section id="contact" class="contact">
+    <div class="footer">
+        <div class="main">
+            <div class="col">
+                <h4>Menu Links</h4>
+                <ul>
+                    <li><a href="#banner">Home</a></li>
+                    <li><a href="#sale">On Sale</a></li>
+                    <li><a href="#home">About </a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="{% url 'store' %}">Store</a></li>
+
+                </ul>
+            </div>
+
+
+            <div class="col">
+                <h4>Shop by Category</h4>
+                <ul>
+                    {% for category in links %} 
+                    <li><a href="/store/?genre={{category.designation}}">{{category.designation}} </a></li>
+                    {% endfor%}
+                </ul>
+            </div>
+
+            <div class="col">
+                <h4>Information</h4>
+                <ul>
+                    <li><a href="#">Delivery Information</a></li>
+                    <li><a href="#">Privacy policy</a></li>
+                    <li><a href="#">Terms & Conditions</a></li>
+
+                </ul>
+            </div>
+
+
+            <div class="col">
+                <h4>Contact</h4>
+                <div class="social">
+                    
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-instagram' ></i></a>
+                    <a href="#"><i class='bx bxl-gmail' ></i></a>
+                    <a href="#"><i class='bx bxl-twitter' ></i></a>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+    
+    <script src="{% static 'js/scripthome.js' %}"></script>
+</body>
+</html>

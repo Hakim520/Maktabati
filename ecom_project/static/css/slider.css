@@ -1,0 +1,108 @@
+#slider{
+    margin-bottom: 50px;
+}
+
+#collapse_3 {
+    padding: 10px;
+}
+
+.noUi-target {
+    background-color: transparent;
+    /* Make the slider background transparent */
+    height: 10px;
+    /* Thin line for the slider base */
+    position: relative;
+    box-shadow: none;
+    /* Remove any shadows */
+}
+
+.noUi-base {
+    height: 100%;
+    width: 100%;
+}
+
+.noUi-connects {
+    height: 100%;
+    border: 1px solid #d3d3d3;
+    /* Adjust the color as needed */
+}
+
+.noUi-horizontal .noUi-handle {
+    width: 20px;
+    /* Handle width */
+    height: 20px;
+    /* Handle height */
+    border-radius: 50%;
+    /* Make handle round */
+    background-color: #FFF;
+    /* Handle color, adjust as needed */
+    cursor: pointer;
+    outline: none;
+    border: 1px solid #CCC;
+    /* Optional: border for handle */
+    /* Optional: shadow for handle */
+    top: 5px;
+    /* Align handle center with the base line */
+    transform: translate(0, -50%);
+    /* Center alignment adjustment */
+}
+
+.noUi-handle-lower.noUi-handle:before {
+    content: "<";
+    position: absolute;
+    top: 50% !important;
+    left: 50% !important;
+    font-size: 12px;
+    /* Adjust font size as needed */
+    color: #333;
+    /* Font color */
+    transform: translate(-50%, -50%);
+    background: none;
+    height: 100%;
+    width: 8px;
+
+    /* Center the content */
+}
+
+.noUi-handle-upper.noUi-handle:before {
+        content: ">";
+            position: absolute;
+            top: 50% !important;
+            left: 50% !important;
+            font-size: 12px;
+            /* Adjust font size as needed */
+            color: #333;
+            /* Font color */
+            transform: translate(-50%, -50%);
+            background: none;
+            height: 100%;
+            width: 8px;
+        
+            /* Center the content */
+}
+
+.noUi-horizontal .noUi-tooltip {
+    bottom: -35px;
+    left: 0px;
+}
+
+
+
+.noUi-tooltip {
+    border: none;
+    font-size: 14px;
+}   
+
+.noUi-handle::after {
+    display: none;
+}
+
+/* Optional: Modify hover style */
+.noUi-handle:hover {
+    cursor: w-resize;
+}
+
+/* Focus styling for accessibility */
+.noUi-handle:focus {
+    outline: none;
+}

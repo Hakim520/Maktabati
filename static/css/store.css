@@ -1,0 +1,144 @@
+.store_card {
+    scroll-snap-align: start;
+    height: 100%;
+    list-style: none;
+    background: #fff;
+    border-radius: 8px;
+    border: 1px solid black;
+    display: flex;
+    padding-bottom: 15px;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    text-align: center;
+}
+
+.store_card:hover {
+    border: 1px solid black;
+}
+
+a .btn {
+    color: white !important;
+    background-color: #002d62;
+}
+
+
+a .btn:hover {
+    background-color: #255286;
+}
+
+.form-check-input {
+    margin-left: 0 !important;
+    position: relative;
+    width: 1em;
+    height: 1em;
+    vertical-align: top;
+    background-color: #fff;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    border: 1px solid rgba(0, 0, 0, .25);
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    -webkit-print-color-adjust: exact;
+}
+
+
+.form-check-input[type=checkbox] {
+    border-radius: .25em;
+}
+
+.form-check-input:checked[type=checkbox] {
+    background-image:url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3e%3cpath fill='none' stroke='%23fff' stroke-linecap='round' stroke-linejoin='round' stroke-width='3' d='m6 10 3 3 6-6'/%3e%3c/svg%3e")
+}
+
+
+
+.form-check-input:checked {
+    background-color: #0d6efd;
+    border-color: #0d6efd;
+}
+
+.form-check-input:focus {
+    border-color: #86b7fe;
+    outline: 0;
+    box-shadow: 0 0 0 .25rem rgba(13, 110, 253, .25);
+}
+
+.count {
+    margin-left: 5px;
+    color: rgb(158, 158, 158);
+}
+
+
+.product-picture {
+    display: flex;
+    justify-content: center;
+    height: 245px;
+    padding-bottom: 16px;
+}
+
+.store_card ul {
+    padding: 0;
+}
+
+.store_card li {
+    list-style: none;
+}
+
+
+.product-picture img {
+    width: 134px;
+    height: 200px;
+    vertical-align: center;
+}
+
+.product-picture a {
+    position: relative;
+    align-self: flex-end;
+
+}
+
+.product-name {
+    text-decoration: none;
+    color: black;
+}
+
+.product-name:hover {
+    text-decoration: underline;
+    text-decoration-color: black;
+    cursor: pointer;
+    color: black;
+}
+
+.product-format,
+.product-author{
+    margin-bottom: 6px !important;
+}
+
+.product-info p,
+.product-format span {
+    font-size: 14px;
+}
+
+
+
+.discount-tag {
+    position: absolute;
+        background: #fff;
+        padding: 5px;
+        border-radius: 5px;
+        color: #ff7d7d;
+        right: 10px;
+        top: 10px;
+        text-transform: capitalize;
+}
+
+.actual-price {
+    margin-left: 10px;
+        font-size: 14px;
+        color: #f21c63;
+        stroke: 1px red;
+        text-decoration: line-through;
+}

@@ -1,0 +1,113 @@
+.book_container {
+    position: relative;
+    max-width: 1220px;
+    margin: 0 auto;
+    margin-top: 100px;
+    margin-bottom: 100px;
+}
+
+.book_container h5 {
+    padding: 0;
+    width: fit-content;
+    margin: 8px 0;
+}
+
+.row {
+    display: flex;
+    justify-content: center;
+}
+
+.gap-20 {
+    gap: 20px;
+}
+
+.row div {
+   
+}
+
+.book_container h1 {
+    width: fit-content;
+    margin: 0;
+}
+
+a .btn {
+    color: white !important;
+    background-color: #002d62;
+}
+
+
+a .btn:hover {
+    background-color: #255286;
+}
+
+#bprice {
+    margin: 10px 0px;
+    font-size: 35px;
+    font-weight: bold;
+}
+
+.right_side a{
+    margin-top: 10px;
+}
+
+
+.about_container {
+    width: 100%;
+    margin: 0 auto;
+    border-top: 1px solid rgb(205, 205, 205);
+    padding-top: 30px;
+    margin-top: 70px;
+    display: flex;
+    align-items: flex-start;
+    gap : 200px;
+}
+
+.book_desc {
+    align-self: flex-start;
+    flex:2;
+}
+
+.information-block {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    background-color: rgb(240, 240, 240);
+    padding: 20px 50px 40px 50px;
+}
+
+.info-title {
+    font-size: 24px;
+        line-height: 1.66667;
+        color: #265dbb;
+        font-weight: 400;
+        
+}
+
+.book_desc h2 {
+    font-size: 24px;
+        line-height: 1.66667;
+        font-weight: 400;
+        color: #265dbb;
+        
+    margin-bottom: 20px;
+}
+
+.champ {
+   
+    display: flex;
+}
+
+
+.champ .cle{
+    font-weight: bold;
+}
+
+
+
+.actual-price {
+    margin-left: 10px;
+    font-size: 18px;
+    color: #f21c63;
+    stroke: 1px red;
+    text-decoration: line-through;
+}
